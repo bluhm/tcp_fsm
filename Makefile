@@ -88,7 +88,8 @@ PYTHON =	PYTHONPATH=${.OBJDIR} python2.7 -u ${.CURDIR}/
 
 TARGETS +=	simultaneous
 run-regress-simultaneous: addr.py
-	ssh ${REMOTE_SSH} nc ${FAKE_NET_ADDR} 4711 </dev/zero &
+	@echo '\n======== $@ ========'
+	ssh ${REMOTE_SSH} nc -D ${FAKE_NET_ADDR} 4711 </dev/zero &
 	${SUDO} ${PYTHON}tcp_simultaneous.py
 
 REGRESS_TARGETS =	${TARGETS:S/^/run-regress-/}
