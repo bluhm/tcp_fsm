@@ -44,7 +44,7 @@ if synackA is None:
 	print "ERROR: no SYN+ACK from remote machine received"
 	exit(1)
 
-#   7.              ... <SEQ=100><ACK=301><CTL=SYN,ACK>  -->
+#   7.              ... <SEQ=100><ACK=301><CTL=SYN,ACK> -->
 #   6.              <-- <SEQ=300><ACK=101><CTL=SYN,ACK> <--
 
 print "Send SYN+ACK packet, receive RST."
@@ -54,15 +54,15 @@ synackB=TCP(sport=portB, dport=portA, seq=seqB, flags='SA', ack=seqA+1,
 rstA=sr1(ipB/synackB, iface=LOCAL_IF, timeout=1)
 
 # OpenBSD sends a RST packet here
-#   8.              --> <SEQ=101><CTL=RST> ...
+#   8.              --> <SEQ=101><CTL=RST>              ...
 
 if rstA is None:
 	print "ERROR: no RST from remote machine received"
 	exit(1)
 
-#   10.             ... <SEQ=101><CTL=RST> -->
+#   10.             ... <SEQ=101><CTL=RST>              -->
 # As this was a reset packet, acknowledge packet received at 7. instead
-#   9.              <-- <SEQ=301><ACK=101><CTL=ACK> <--
+#   9.              <-- <SEQ=301><ACK=101><CTL=ACK>     <--
 
 print "Send ACK packet, receive remote data."
 ack=TCP(sport=portB, dport=portA, seq=seqB+1, flags='A', ack=synackA.seq+1,
