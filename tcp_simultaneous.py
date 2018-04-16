@@ -51,17 +51,18 @@ print "Send SYN+ACK packet, receive RST."
 synackB=TCP(sport=portB, dport=portA, seq=seqB, flags='SA', ack=seqA+1,
     window=(2**16)-1)
 # XXX patch scapy to recognize a TCP reset answer
-rstA=sr1(ipB/synackB, iface=LOCAL_IF, timeout=5)
+rstA=sr1(ipB/synackB, iface=LOCAL_IF, timeout=1)
 
-# OpenBSD sends a RST packet here
+# OpenBSD sends a RST packet here, it should not send anything
 #   8.              --> <SEQ=101><CTL=RST>              ...
 
-if rstA is None:
-	print "ERROR: no RST from remote machine received"
+if rstA is not None:
+	print "ERROR: packet from remote machine received"
 	exit(1)
 
 #   10.             ... <SEQ=101><CTL=RST>              -->
-# As this was a reset packet, acknowledge packet received at 7. instead
+
+# ignore this reset packet, acknowledge packet received at 7. instead
 #   9.              <-- <SEQ=301><ACK=101><CTL=ACK>     <--
 
 print "Send ACK packet, receive remote data."
