@@ -58,7 +58,6 @@ rstA=sr1(ipB/synackB, iface=LOCAL_IF, timeout=1)
 
 if rstA is not None:
 	print "ERROR: packet from remote machine received"
-	exit(1)
 
 #   10.             ... <SEQ=101><CTL=RST>              -->
 
