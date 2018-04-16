@@ -51,7 +51,7 @@ print "Send SYN+ACK packet, receive RST."
 synackB=TCP(sport=portB, dport=portA, seq=seqB, flags='SA', ack=seqA+1,
     window=(2**16)-1)
 # XXX patch scapy to recognize a TCP reset answer
-rstA=sr1(ipB/synackB, iface=LOCAL_IF, timeout=1)
+rstA=sr1(ipB/synackB, iface=LOCAL_IF, timeout=5)
 
 # OpenBSD sends a RST packet here
 #   8.              --> <SEQ=101><CTL=RST>              ...
